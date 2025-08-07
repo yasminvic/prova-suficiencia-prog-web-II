@@ -1,13 +1,14 @@
 ﻿using Domain.Entity;
 using Domain.Interfaces.IRepositories;
+using Infra.Data.Repository.Data;
 
 namespace Infra.Data.Repository.Repositories
 {
     public class ProdutoRepository : BaseRepository<Produto>, IProdutoRepository
     {
-        private readonly SQLServerContext _context;
+        private readonly DataContext _context;
 
-        public ProdutoRepository(SQLServerContext context)
+        public ProdutoRepository(DataContext context)
             : base(context)
         {
         }

@@ -25,10 +25,10 @@ namespace Application.Service.Services
             return usuario.mapToDTO(await _repository.FindById(id));
         }
 
-        public async Task<UsuarioDTO> FindByLogin(string email)
+        public async Task<UsuarioDTO> GetByEmail(string email)
         {
-            var usuario = new UsuarioDTO();
-            return usuario.mapToDTO(await _repository.FindByLogin(email));
+            UsuarioDTO user = new UsuarioDTO();
+            return user.mapToDTO(await _repository.GetByEmail(email));
         }
 
         public async Task<List<UsuarioDTO>> GetAll()

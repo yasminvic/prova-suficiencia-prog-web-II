@@ -25,12 +25,6 @@ namespace Application.Service.Services
             return comanda.mapToDTO(await _repository.FindById(id));
         }
 
-        public async Task<ComandaDTO> FindByLogin(string email)
-        {
-            var comanda = new ComandaDTO();
-            return comanda.mapToDTO(await _repository.FindByLogin(email));
-        }
-
         public async Task<List<ComandaDTO>> GetAll()
         {
             List<ComandaDTO> listaDTO = new List<ComandaDTO>();

@@ -26,12 +26,6 @@ namespace Application.Service.Services
             return produto.mapToDTO(await _repository.FindById(id));
         }
 
-        public async Task<ProdutoDTO> FindByLogin(string email)
-        {
-            var produto = new ProdutoDTO();
-            return produto.mapToDTO(await _repository.FindByLogin(email));
-        }
-
         public async Task<List<ProdutoDTO>> GetAll()
         {
             List<ProdutoDTO> listaDTO = new List<ProdutoDTO>();

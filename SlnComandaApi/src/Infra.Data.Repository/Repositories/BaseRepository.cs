@@ -1,12 +1,14 @@
 ﻿using Domain.Interfaces.IRepositories;
+using Infra.Data.Repository.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Data.Repository.Repositories
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
-        private readonly SQLServerContext _context;
+        private readonly DataContext _context;
 
-        public BaseRepository(SQLServerContext context)
+        public BaseRepository(DataContext context)
         {
             _context = context;
         }

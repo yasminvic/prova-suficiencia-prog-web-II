@@ -1,13 +1,14 @@
 ﻿using Domain.Entity;
 using Domain.Interfaces.IRepositories;
+using Infra.Data.Repository.Data;
 
 namespace Infra.Data.Repository.Repositories
 {
     public class ComandaRepository : BaseRepository<Comanda>, IComandaRepository
     {
-        private readonly SQLServerContext _context;
+        private readonly DataContext _context;
 
-        public ComandaRepository(SQLServerContext context)
+        public ComandaRepository(DataContext context)
             : base(context)
         {
         }

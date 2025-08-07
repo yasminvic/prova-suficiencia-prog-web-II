@@ -1,20 +1,21 @@
 ﻿using Domain.Entity;
 using Domain.Interfaces.IRepositories;
+using Infra.Data.Repository.Data;
 
 namespace Infra.Data.Repository.Repositories
 {
     public class UsuarioRepository : BaseRepository<Usuario>, IUsuarioRepository
     {
-        private readonly SQLServerContext _context;
+        private readonly DataContext _context;
 
-        public UsuarioRepository(SQLServerContext context)
+        public UsuarioRepository(DataContext context)
             : base(context)
         {
         }
 
-        public async Task<Usuario> FindByLogin(string email)
+        public async Task<Usuario> GetByEmail(string email)
         {
-            return await _context.Usuarios.FirstOrDefaultAsync(p => p.Email == email);
+            return _context.Usuarios.Where(user => user.Email == email).FirstOrDefault();
         }
     }
 }
