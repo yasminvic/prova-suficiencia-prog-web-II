@@ -4,7 +4,7 @@ using Domain.Interfaces.IServices;
 
 namespace Application.Service.Services
 {
-    internal class ComandaService : IComandaService
+    public class ComandaService : IComandaService
     {
         private readonly IComandaRepository _repository;
 

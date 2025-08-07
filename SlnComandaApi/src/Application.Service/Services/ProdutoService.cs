@@ -4,7 +4,7 @@ using Domain.Interfaces.IServices;
 
 namespace Application.Service.Services
 {
-    internal class ProdutoService : IProdutoService
+    public class ProdutoService : IProdutoService
     {
         private readonly IProdutoRepository _repository;
 
