@@ -17,8 +17,8 @@ namespace Domain.Entity
         [Required]
         public int UsuarioId { get; set; }
 
-        public Usuario Usuario { get; set; }
+        public virtual Usuario Usuario { get; set; }
 
-        public List<Produto> Produtos { get; set; }
+        public virtual List<Produto> Produtos { get; set; }
     }
 }

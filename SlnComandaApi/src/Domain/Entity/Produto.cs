@@ -18,7 +18,8 @@ namespace Domain.Entity
         [StringLength(100)]
         public string Nome { get; set; }
 
-        [Range(0.01, 9999)]
+        [Required(ErrorMessage = "Preço é obrigatório")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Preço deve ser maior que 0")]
         public decimal Preco { get; set; }
 
         public int ComandaId { get; set; }
