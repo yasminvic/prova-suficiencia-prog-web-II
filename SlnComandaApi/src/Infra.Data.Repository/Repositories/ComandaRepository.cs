@@ -1,6 +1,7 @@
 ﻿using Domain.Entity;
 using Domain.Interfaces.IRepositories;
 using Infra.Data.Repository.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Data.Repository.Repositories
 {
@@ -11,6 +12,14 @@ namespace Infra.Data.Repository.Repositories
         public ComandaRepository(DataContext context)
             : base(context)
         {
+            _context = context;
+        }
+
+        public async Task<List<Comanda>> GetAll()
+        {
+            return await _context.Comandas
+                .Include(c => c.Usuario)
+                .ToListAsync();
         }
     }
 }

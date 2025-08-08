@@ -11,6 +11,7 @@ namespace Infra.Data.Repository.Repositories
         public UsuarioRepository(DataContext context)
             : base(context)
         {
+            _context = context;
         }
 
         public async Task<Usuario> GetByEmail(string email)

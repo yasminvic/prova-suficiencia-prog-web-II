@@ -16,6 +16,10 @@ namespace Application.Service.Services
         public async Task<int> Delete(int id)
         {
             var entity = await _repository.FindById(id);
+            if(entity == null)
+            {
+                return -1;
+            }
             return await _repository.Delete(entity);
         }
 

@@ -7,6 +7,7 @@ namespace Domain.DTO
         public int id { get; set; }
         public string nome { get; set; }
         public decimal preco { get; set; }
+        public int comandaId { get; set; }
 
         public ProdutoDTO mapToDTO(Produto produto)
         {
@@ -18,7 +19,8 @@ namespace Domain.DTO
             {
                 id = produto.Id,
                 nome = produto.Nome,
-                preco = produto.Preco
+                preco = produto.Preco,
+                comandaId = produto.ComandaId
             };
         }
 
@@ -28,7 +30,8 @@ namespace Domain.DTO
             {
                 Id = id,
                 Nome = nome,
-                Preco = preco
+                Preco = preco,
+                ComandaId = comandaId
             };
         }
     }

@@ -1,11 +1,14 @@
+using Application.Api.DTO;
 using Application.Service.Services;
 using Domain.Interfaces.IRepositories;
 using Domain.Interfaces.IServices;
 using Infra.Data.Repository.Data;
 using Infra.Data.Repository.Repositories;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 const string SECRET_KEY = "9fbbdd98-f2f4-4673-b48e-083ec1be44dc";
 
@@ -13,17 +16,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Context SQL Server
 builder.Services.AddDbContext<DataContext>
-    (options => options.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=Api;User Id=sa;Password=12345678;TrustServerCertificate=True;Encrypt=False;"));
+    (options => options.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=ApiRestFurb;User Id=sa;Password=12345678;TrustServerCertificate=True;Encrypt=False;"));
 
 // Add services to the container.
-builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
 //Config Swagger
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Buscar CEP" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Furb Api" });
 
     var securityScheme = new OpenApiSecurityScheme
     {
@@ -47,12 +49,49 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// Add services to the container.
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    // Configurações padrão...
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SECRET_KEY)),
+        ValidateLifetime = true
+    };
+
+    // Resposta JSON customizada para 401 Unauthorized quando não autenticado
+    options.Events = new JwtBearerEvents
+    {
+        OnChallenge = context =>
+        {
+            context.HandleResponse(); // Suprime a resposta padrão
+
+            context.Response.StatusCode = 401;
+            context.Response.ContentType = "application/json";
+
+            var json = System.Text.Json.JsonSerializer.Serialize(new ResponseApiDTO
+            {
+                status = 401,
+                message = "Unauthorized",
+                details = "Token inválido, expirado ou não fornecido. Acesso negado."
+            });
+
+            return context.Response.WriteAsync(json);
+        }
+    };
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 //Service
 builder.Services.AddScoped<IComandaService, ComandaService>();
@@ -63,17 +102,6 @@ builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IComandaRepository, ComandaRepository>();
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-
-//Sessao
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<ISessao, Sessao>();
-
-builder.Services.AddSession(o =>
-{
-    o.Cookie.HttpOnly = true;
-    o.Cookie.IsEssential = true;
-});
-
 
 var app = builder.Build();
 
@@ -86,6 +114,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication(); 
 app.UseAuthorization();
 
 app.MapControllers();

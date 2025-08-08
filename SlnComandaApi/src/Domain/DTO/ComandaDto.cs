@@ -8,10 +8,15 @@ namespace Domain.DTO
         public int usuarioId { get; set; }
         public string nomeUsuario { get; set; }
         public string telefoneUsuario { get; set; }
-        public List<ProdutoDTO> produtos { get; set; }
+        public List<ProdutoDTO>? produtos { get; set; }
 
         public ComandaDTO mapToDTO(Comanda comanda)
         {
+            if (comanda == null)
+            {
+                return null;
+            }
+
             return new ComandaDTO
             {
                 id = comanda.Id,

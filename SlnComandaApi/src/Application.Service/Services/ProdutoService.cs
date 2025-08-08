@@ -1,4 +1,5 @@
 ﻿using Domain.DTO;
+using Domain.Entity;
 using Domain.Interfaces.IRepositories;
 using Domain.Interfaces.IServices;
 
@@ -16,6 +17,10 @@ namespace Application.Service.Services
         public async Task<int> Delete(int id)
         {
             var entity = await _repository.FindById(id);
+            if (entity == null)
+            {
+                return -1;
+            }
             return await _repository.Delete(entity);
         }
 
@@ -39,6 +44,20 @@ namespace Application.Service.Services
 
             return listaDTO;
 
+        }
+
+        public async Task<List<ProdutoDTO>> GetAllByComanda(int comandaId)
+        {
+            var lista = await _repository.GetAllByComanda(comandaId);
+
+            var listaDto = new List<ProdutoDTO>();
+            foreach (var produto in lista)
+            {
+                var dto = new ProdutoDTO();
+                listaDto.Add(dto.mapToDTO(produto));
+            }
+
+            return listaDto;
         }
 
         public async Task<int> Save(ProdutoDTO entity)

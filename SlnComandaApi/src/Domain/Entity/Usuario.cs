@@ -25,6 +25,6 @@ namespace Domain.Entity
         [PasswordPropertyText] 
         public string Senha { get; set; }  
 
-        public virtual List<Comanda> Comandas { get; set; }
+        public virtual List<Comanda>? Comandas { get; set; }
     }
 }

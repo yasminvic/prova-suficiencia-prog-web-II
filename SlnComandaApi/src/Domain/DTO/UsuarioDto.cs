@@ -12,6 +12,8 @@ namespace Domain.DTO
         public int id { get; set; }
         public string email { get; set; }
         public string senha { get; set; }
+        public string nome { get; set; }
+        public string telefone { get; set; }
 
         public bool ValidaSenha(string senha)
         {
@@ -24,17 +26,25 @@ namespace Domain.DTO
             {
                 Id = id,
                 Email = email,
-                Senha = senha
+                Senha = senha,
+                Telefone = telefone,
+                Nome = nome
             };
         }
 
         public UsuarioDTO mapToDTO(Usuario user)
         {
+            if(user == null)
+            {
+                return null;
+            }
             return new UsuarioDTO
             {
                 id = user.Id,
                 email = user.Email,
-                senha = user.Senha
+                senha = user.Senha,
+                nome = user.Nome,
+                telefone = user.Telefone
             };
         }
     }

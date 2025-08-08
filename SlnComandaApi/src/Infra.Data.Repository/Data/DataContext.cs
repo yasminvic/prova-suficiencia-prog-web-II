@@ -1,7 +1,5 @@
 ﻿using Domain.Entity;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Reflection.Emit;
 
 namespace Infra.Data.Repository.Data
 {
@@ -63,6 +61,7 @@ namespace Infra.Data.Repository.Data
                     Nome = "João Silva",
                     Telefone = "47988887777",
                     Email = "joao.silva@email.com",
+                    Senha = "admin123"
                 },
                 new Usuario
                 {
@@ -70,6 +69,7 @@ namespace Infra.Data.Repository.Data
                     Nome = "Maria Santos",
                     Telefone = "47999998888",
                     Email = "maria.santos@email.com",
+                    Senha = "admin123"
                 },
                 new Usuario
                 {
@@ -77,6 +77,7 @@ namespace Infra.Data.Repository.Data
                     Nome = "Pedro Oliveira",
                     Telefone = "47977776666",
                     Email = "pedro.oliveira@email.com",
+                    Senha = "admin123"
                 },
                 new Usuario
                 {
@@ -84,6 +85,7 @@ namespace Infra.Data.Repository.Data
                     Nome = "Ana Costa",
                     Telefone = "47966665555",
                     Email = "ana.costa@email.com",
+                    Senha = "admin123"
                 },
                 new Usuario
                 {
@@ -91,6 +93,7 @@ namespace Infra.Data.Repository.Data
                     Nome = "Carlos Mendes",
                     Telefone = "47955554444",
                     Email = "carlos.mendes@email.com",
+                    Senha = "admin123" 
                 }
             };
             modelBuilder.Entity<Usuario>().HasData(usuarios);
